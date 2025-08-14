@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ResgateseuCupom</title>
+    <link rel="stylesheet" href="atividade.css">
+</head>
+<body>
+    <p id="mensagem">Será que seu Cupom está disponível?</p>
+    <input type="text" id="Cupom" placeholder="Digite o seu Cupom">
+    <button id="botao" onclick="mensagem()">Verificar</button>
+    <script>
+        function mensagem() {
+            const Mensagem = document.getElementById("mensagem");
+            const cupom = document.getElementById("Cupom").value;
+            const cupomDigitado ="10%OFF";
+            const name = document.getElementById("Cupom").value;
+            const bot = document.getElementById("botao");
+            if(name == cupomDigitado){
+                Mensagem.innerHTML = "Cupom válido!";
+            }
+            else{
+                Mensagem.innerHTML = "Cupom inválido!";
+            }
+        }
+    </script>
+</body>
+</html>
