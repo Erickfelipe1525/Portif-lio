@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Login</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <h1>Login de Usuário</h1>
+    
+    <form id="loginForm">
+        <p>
+            <label for="username">Usuário:</label>
+            <input type="text" id="username" required>
+        </p>
+        <p>
+            <label for="password">Senha:</label>
+            <input type="password" id="password" required>
+        </p>
+        <button type="submit">Entrar</button>
+    </form>
+
+    <p id="mensagem"></p>
+
+    <script>
+        // Adiciona um evento que é ativado quando o formulário é enviado.
+        document.getElementById('loginForm').addEventListener('submit', function(event) {
+            
+            // Impede a recarga da página.
+            event.preventDefault();
+
+            // 1. Array de usuários pré-definidos.
+            const usuarios = [
+                { login: 'usuario1', senha: '123' },
+                { login: 'usuario2', senha: 'kkkk' },
+                { login: 'admin', senha: 'abc' }
+            ];
+
+            // 2. Captura os valores digitados nos campos.
+            const usuarioDigitado = document.getElementById('username').value;
+            const senhaDigitada = document.getElementById('password').value;
+            const mensagemElemento = document.getElementById('mensagem');
+
+            // 3. Variável de controle. Usamos 'let' para que seu valor possa ser alterado.
+            let loginCorreto = false;
+
+            // 4. Laço de repetição para percorrer o array.
+            for (let i = 0; i < usuarios.length; i++) {
+                
+                // 5. Verifica se o login E a senha digitados são iguais a um dos usuários do array.
+                if (usuarioDigitado === usuarios[i].login && senhaDigitada === usuarios[i].senha) {
+                    
+                    // Se encontrar a correspondência, muda a variável de controle para 'true'.
+                    loginCorreto = true;
+                    
+                    // Sai do laço, pois a busca já terminou.
+                    break; 
+                }
+            }
+
+            // 6. Exibe o resultado final com base na variável de controle.
+            if (loginCorreto) {
+                mensagemElemento.textContent = 'Login bem-sucedido!';
+                mensagemElemento.style.color = 'green';
+            } else {
+                mensagemElemento.textContent = 'Usuário ou senha incorretos.';
+                mensagemElemento.style.color = 'red';
+            }
+        });
+    </script>
+
+</body>
+</html>
