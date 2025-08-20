@@ -1,89 +1,89 @@
-/* Reset básico */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
-
-/* Corpo da página */
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(135deg, #c3ecf8, #fef6e4);
-    color: #333;
-    min-height: 100vh;
+    background: linear-gradient(135deg, #7e9fa0, #1836e2);
+    height: 100vh;
     display: flex;
-    justify-content: center;
     align-items: center;
-    padding: 20px;
+    justify-content: center;
 }
-
-/* Container principal */
 .container {
-    background: #ffffff;
-    border-radius: 15px;
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
-    padding: 40px;
-    max-width: 650px;
+    background: #fff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
     width: 100%;
+    max-width: 400px;
     text-align: center;
-    transition: transform 0.3s ease;
-    border: 2px solid #e0e0e0;
 }
-
-.container:hover {
-    transform: translateY(-5px);
-}
-
-/* Título */
-.container h1 {
-    font-size: 2.5rem;
-    color: #ff6b6b;
+h1 {
     margin-bottom: 20px;
+    color: #333;
+    font-style: oblique;
 }
-
-/* Subtítulo ou parágrafos */
-.container p {
-    font-size: 1.1rem;
-    color: #555;
-    margin-bottom: 20px;
+form p {
+    margin-bottom: 16px;
+    text-align: left;
 }
-
-/* Destaques coloridos */
-.highlight {
-    color: #4ecdc4;
-    font-weight: bold;
+label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 600;
+    color: #444;
 }
-
-/* Botão estilizado */
-.button {
-    display: inline-block;
-    background: linear-gradient(to right, #ff6b6b, #f06595);
+input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 16px;
+    transition: border-color 0.3s;
+}
+input:focus {
+    border-color: #1d6de6;
+    outline: none;
+}
+button {
+    background: #4e95e6;
     color: white;
-    padding: 12px 28px;
     border: none;
-    border-radius: 25px;
-    font-size: 1rem;
+    padding: 14px;
+    width: 100%;
+    font-size: 16px;
+    border-radius: 8px;
     cursor: pointer;
-    transition: background 0.3s ease;
+    transition: background 0.3s, transform 0.2s;
+}
+button:hover {
+    background: #1457af;
+    transform: scale(1.05);
+}
+.auth-links {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+.auth-links a {
     text-decoration: none;
+    color: #007BFF;
 }
-
-.button:hover {
-    background: linear-gradient(to right, #f06595, #ff6b6b);
+.auth-links a:hover {
+    text-decoration: underline;
 }
-
-/* Responsivo */
+#mensagem {
+    margin-top: 20px;
+    font-weight: bold;
+    font-size: 15px;
+}
 @media (max-width: 600px) {
     .container {
-        padding: 25px;
+        padding: 20px;
     }
-
-    .container h1 {
-        font-size: 2rem;
-    }
-
-    .button {
-        padding: 10px 20px;
-        font-size: 0.9rem;
+    button {
+        padding: 12px;
     }
 }
