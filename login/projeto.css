@@ -1,0 +1,90 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: url('./img/IMG.jpg');
+    background-size: cover;
+    background-position: center;
+}
+.container {
+    background: #fff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+}
+h1 {
+    margin-bottom: 20px;
+    color: #0948bc;
+    font-style: oblique;
+}
+form p {
+    margin-bottom: 16px;
+    text-align: left;
+}
+label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 600;
+    color: #0948bc;
+}
+input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 16px;
+    transition: border-color 0.3s;
+}
+input:focus {
+    border-color: #1d6de6;
+    outline: none;
+}
+button {
+    background: #4e95e6;
+    color: white;
+    border: none;
+    padding: 14px;
+    width: 100%;
+    font-size: 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.2s;
+}
+button:hover {
+    background: #1457af;
+    transform: scale(1.05);
+}
+.auth-links {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+.auth-links a {
+    text-decoration: none;
+    color: #007BFF;
+}
+.auth-links a:hover {
+    text-decoration: underline;
+}
+#mensagem {
+    margin-top: 20px;
+    font-weight: bold;
+    font-size: 15px;
+}
+@media (max-width: 600px) {
+    .container {
+        padding: 20px;
+    }
+    button {
+        padding: 12px;
+    }
+}
