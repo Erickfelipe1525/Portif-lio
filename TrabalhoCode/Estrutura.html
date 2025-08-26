@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Login</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="container">
+        <h1>Login de Usuário</h1>
+        
+        <form id="loginForm">
+            <p>
+                <label for="username">Usuário:</label>
+                <input type="text" id="username" required placeholder="Digite seu nome de usuário.">
+            </p>
+            <p>
+                <label for="password">Senha:</label>
+                <input type="password" id="password" required placeholder="Digite sua senha.">
+            </p>
+            <button type="submit">Entrar</button>
+        </form>
+        
+        <!-- Colocando os links dentro de uma div com a classe auth-links -->
+        <div class="auth-links">
+            <a href="#" class="forgot-password">Esqueci a senha?</a>
+            <a href="#" class="register-link">Cadastrar</a>
+        </div>
+
+        <p id="mensagem"></p>
+    </div>
+
+    <script>
+        // Definir os usuários com nome de usuário e senha
+        let users = [
+            { username: 'usuario1', password: 'senha1' },
+            { username: 'usuario2', password: 'senha2' },
+            { username: 'usuario3', password: 'senha3' }
+        ];
+
+        // Função para manipular o envio do formulário
+        document.getElementById('loginForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Previne o comportamento padrão do formulário (recarregar a página)
+
+            // Obtendo os valores dos campos
+            let username = document.getElementById('username').value;
+            let password = document.getElementById('password').value;
+            let mensagem = document.getElementById('mensagem');
+
+            // Verificando se os dados fornecidos correspondem a algum usuário
+            let user = users.find(user => user.username === username && user.password === password);
+
+            // Validando os dados (comparando com os usuários cadastrados)
+            if (user) {
+                mensagem.style.color = 'green';
+                mensagem.textContent = 'Login bem-sucedido!';
+            } else {
+                mensagem.style.color = 'red';
+                mensagem.textContent = 'Usuário ou senha inválidos!';
+            }
+
+            // Limpando os campos após o login (se necessário)
+            document.getElementById('username').value = '';
+            document.getElementById('password').value = '';
+        });
+    </script>
+
+</body>
+</html>
