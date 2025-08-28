@@ -1,0 +1,131 @@
+/* Reset e Box-sizing */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Corpo da página com imagem de fundo */
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: url('./img/IMG.jpg') no-repeat center center/cover;
+    font-family: Arial, sans-serif;
+}
+
+/* Container do formulário */
+.container {
+    background: #fff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+}
+
+/* Título */
+h3 {
+    margin-bottom: 20px;
+    color: #6d1775;
+    font-style: italic;
+}
+
+/* Logo */
+.logo {
+    width: 150px;
+    height: auto;
+    display: block;
+    margin: 10px auto 20px auto;
+}
+
+/* Formulário */
+form p {
+    margin-bottom: 16px;
+    text-align: left;
+}
+label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 600;
+    color: #5f0688;
+}
+input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 16px;
+    transition: border-color 0.3s;
+}
+input:focus {
+    border-color: #6a0ed3;
+    outline: none;
+}
+
+/* Botão */
+button {
+    background: #2b023b;
+    color: white;
+    border: none;
+    padding: 14px;
+    width: 100%;
+    font-size: 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.2s;
+}
+button:hover {
+    background: #8940e7;
+    transform: scale(1.05);
+}
+
+/* Links de autenticação */
+.auth-links {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+.auth-links a {
+    text-decoration: none;
+    color: #9460a8;
+}
+.auth-links a:hover {
+    text-decoration: underline;
+}
+
+/* Mensagem de erro ou sucesso */
+#mensagem {
+    margin-top: 20px;
+    font-weight: bold;
+    font-size: 15px;
+}
+
+/* Responsividade */
+@media (max-width: 600px) {
+    .container {
+        padding: 20px;
+    }
+    button {
+        padding: 12px;
+    }
+}
+.google-btn {
+    background: #2d0130; /* cor vermelha do Google */
+    color: white;
+    border: none;
+    padding: 12px;
+    width: 100%;
+    font-size: 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background 0.3s, transform 0.2s;
+}
+
+.google-btn:hover {
+    background: #4d0071;
+    transform: scale(1.05);
+}

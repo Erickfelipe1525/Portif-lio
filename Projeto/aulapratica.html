@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login</title>
+  <link rel="stylesheet" href="aulapratica.css">
+</head>
+<body>
+
+  <!-- Container centralizado -->
+  <div class="container">
+    <h3>Informe sua matrícula e senha</h3>
+
+    <!-- Logo -->
+    <img src="IMG/logo.png" 
+         alt="Logo Viva Educação"
+         class="logo">
+
+    <!-- Formulário de login -->
+    <form id="loginForm">
+      <p>
+        <label for="login">Usuário👨🏽‍🎓</label>
+        <input type="text" id="login" placeholder="Digite seu usuário" required>
+      </p>
+      <p>
+        <label for="senha">Senha🔑</label>
+        <input type="password" id="senha" placeholder="Digite sua senha" required>
+      </p>
+      <button type="submit">Entrar</button>
+    </form>
+
+<button type="button" id="googleLogin" class="google-btn">
+    Entrar com Google
+</button>
+
+    <!-- Links extras -->
+    <div class="auth-links">
+      <a href="recuperar-senha.html">Esqueci a senha?</a>
+      <a href="cadastro.html">Quero me cadastrar!</a>
+    </div>
+
+    <p id="mensagem"></p> <!-- Mensagem de erro ou redirecionamento -->
+  </div>
+
+  <script src="aulapratica.js"></script>
+</body>
+</html>

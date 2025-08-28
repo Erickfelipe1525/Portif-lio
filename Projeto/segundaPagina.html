@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Plataforma Escolar</title>
+<style>
+    /* Reset básico */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+        font-family: Arial, sans-serif;
+        background: linear-gradient(135deg,#66428a,#130025);
+        color: #fff;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+    }
+
+    /* Cabeçalho */
+    header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px 40px;
+        background: rgba(0,0,0,0.3);
+        backdrop-filter: blur(10px);
+    }
+
+    header .logo {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    header .logo img {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+    }
+
+    header h1 { color: #d9b3ff; }
+
+    header nav ul {
+        list-style: none;
+        display: flex;
+        gap: 25px;
+    }
+
+    header nav ul li a {
+        color: #fff;
+        text-decoration: none;
+        font-weight: bold;
+        transition: 0.3s;
+    }
+    header nav ul li a:hover { color: #d9b3ff; }
+
+    #logoutBtn {
+        background: #6f35a8;
+        color: #fff;
+        border: 0;
+        padding: 10px 16px;
+        border-radius: 12px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    /* Container principal */
+    .container {
+        max-width: 1200px;
+        margin: 40px auto;
+        padding: 0 20px;
+        flex: 1;
+    }
+
+    /* Grade de cursos */
+    .cursos-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 25px;
+    }
+
+    /* Card de curso */
+    .curso-card {
+        background: rgba(255,255,255,0.1);
+        backdrop-filter: blur(10px);
+        border-radius: 20px;
+        padding: 20px;
+        box-shadow: 0 6px 20px rgba(0,0,0,.4);
+        transition: .3s;
+    }
+    .curso-card:hover { transform: translateY(-5px); }
+    .curso-card h2 { color: #f0e6ff; margin-bottom: 10px; }
+    .curso-card p { color: #e6ccff; }
+    .curso-card button {
+        background: #8000ff;
+        color: #fff;
+        border: 0;
+        padding: 10px;
+        border-radius: 10px;
+        cursor: pointer;
+        font-weight: bold;
+    }
+
+    /* Loader */
+    .loader {
+        border: 4px solid #ccc;
+        border-top: 4px solid #8000ff;
+        border-radius: 50%;
+        width: 30px;
+        height: 30px;
+        animation: spin 1s linear infinite;
+        margin: 15px auto;
+        display: none;
+    }
+    @keyframes spin { 100% { transform: rotate(360deg); } }
+
+    /* Detalhes do curso */
+    .detalhes { display: none; margin-top: 15px; }
+    .detalhes ul { padding-left: 20px; }
+    .detalhes li { margin: 5px 0; color: #fff; }
+
+    /* Sobre o curso */
+    .sobre-curso {
+        margin-top: 40px;
+        background: rgba(255,255,255,0.08);
+        border-radius: 15px;
+        padding: 20px;
+        text-align: center;
+        animation: slideText 10s linear infinite;
+        white-space: nowrap;
+        overflow: hidden;
+    }
+
+    @keyframes slideText {
+        0% { transform: translateX(100%); }
+        100% { transform: translateX(-100%); }
+    }
+
+    /* Rodapé */
+    footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 20px;
+        background-color: #66428a;
+        color: #fff;
+    }
+    footer a {
+        color: #fff;
+        text-decoration: none;
+    }
+    footer a:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+
+<header>
+    <div class="logo">
+        <img src="IMG/Vuo.png" alt="Mascote Ruo">
+        <h1>Viva Educação</h1>
+    </div>
+    <nav>
+        <ul>
+            <li><a href="#">Top cursos</a></li>
+            <li><a href="#">Como ingressar</a></li>
+            <li><a href="#">Diferenciais</a></li>
+            <li><a href="#">Modalidades</a></li>
+            <li><a href="#">Depoimentos</a></li>
+            <li><a href="#">FAQ</a></li>
+        </ul>
+    </nav>
+    <button id="logoutBtn">Sair</button>
+</header>
+
+<main class="container">
+    <div class="cursos-grid">
+
+        <div class="curso-card">
+            <h2>HTML & CSS</h2>
+            <p>Aprenda a criar páginas web modernas.</p>
+            <button onclick="abrirCurso(this)">Acessar Curso</button>
+            <div class="loader"></div>
+            <div class="detalhes">
+                <ul>
+                    <li>Estrutura de páginas</li>
+                    <li>Estilos e layouts</li>
+                    <li>Sites responsivos</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="curso-card">
+            <h2>JavaScript</h2>
+            <p>Domine a programação front-end.</p>
+            <button onclick="abrirCurso(this)">Acessar Curso</button>
+            <div class="loader"></div>
+            <div class="detalhes">
+                <ul>
+                    <li>Manipulação do DOM</li>
+                    <li>Eventos e interatividade</li>
+                    <li>Funções assíncronas</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="curso-card">
+            <h2>Python</h2>
+            <p>Automação, dados e desenvolvimento web.</p>
+            <button onclick="abrirCurso(this)">Acessar Curso</button>
+            <div class="loader"></div>
+            <div class="detalhes">
+                <ul>
+                    <li>Lógica de programação</li>
+                    <li>Automação de tarefas</li>
+                    <li>Análise de dados</li>
+                    <li>Frameworks web</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="curso-card">
+            <h2>SQL & Banco de Dados</h2>
+            <p>Gerencie e consulte dados de forma avançada.</p>
+            <button onclick="abrirCurso(this)">Acessar Curso</button>
+            <div class="loader"></div>
+            <div class="detalhes">
+                <ul>
+                    <li>Modelagem de dados</li>
+                    <li>Consultas SQL</li>
+                    <li>Joins e Subconsultas</li>
+                    <li>Otimização de queries</li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Texto sobre os cursos (rolando) -->
+    <div class="sobre-curso">
+        <p>📚 Nossos cursos foram desenvolvidos para preparar você para o mercado de trabalho com habilidades práticas e teóricas.</p>
+    </div>
+</main>
+
+<footer>
+  <p>© 2025 Viva Educação. Todos os direitos reservados.</p>
+  <p>Telefone: (31) 99833-4444</p>
+  <a href="https://www.instagram.com/">Instagram</a>
+  <a href="https://www.facebook.com/">Facebook</a>
+</footer>
+
+<script>
+function abrirCurso(btn) {
+    const card = btn.parentElement;
+    const loader = card.querySelector(".loader");
+    const detalhes = card.querySelector(".detalhes");
+
+    loader.style.display = "block";
+    detalhes.style.display = "none";
+
+    setTimeout(() => {
+        loader.style.display = "none";
+        detalhes.style.display = "block";
+    }, 1500);
+}
+
+document.getElementById("logoutBtn").onclick = () => {
+    location.href = "aulapratica.html";
+}
+</script>
+
+</body>
+</html>
