@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Relógio Motivacional</title>
+
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', sans-serif;
+      background-color: #f0f0f0;
+      transition: background-color 1s, background-image 1s;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      color: #222;
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+
+    .container {
+      background: rgba(255, 255, 255, 0.85);
+      padding: 30px 30px;
+      border-radius: 13px;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+      max-width: 500px;
+      width: 73%;
+      text-align: center;
+      backdrop-filter: blur(8px);
+    }
+
+    .container p {
+      margin: 15px 0;
+      font-size: 1.2em;
+      color: #222;
+    }
+
+    #titulo {
+      font-size: 2em;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    #frase {
+      font-style: italic;
+      color: #555;
+      min-height: 2.2em;
+    }
+
+    #diaSemana {
+      font-weight: 500;
+      margin-top: 20px;
+      color: #333;
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        padding: 30px 20px;
+      }
+
+      .container p {
+        font-size: 1.4em;
+      }
+
+      #titulo {
+        font-size: 2.2em;
+      }
+    }
+  </style>
+</head>
+<body onload="iniciarAtualizacao()">
+  <div class="container">
+    <p id="titulo"></p>
+    <p id="hora"></p>
+    <p id="data"></p>
+    <p id="frase"></p>
+    <p id="diaSemana"></p>
+  </div>
+
+  <script>
+    let frasesAtuais = [];
+
+    function iniciarAtualizacao() {
+      atualizarTudo();
+      setInterval(atualizarTudo, 1000);
+      setInterval(mudarFrase, 4000);
+    }
+
+    function atualizarTudo() {
+      const agora = new Date();
+      atualizarMensagemEEstilo(agora);
+      mostrarHoraData(agora);
+      mostrarDiaSemana(agora);
+    }
+
+    function atualizarMensagemEEstilo(agora) {
+      const hora = agora.getHours();
+      let corFundo = "#ffffff";
+      let mensagem = "";
+      let imagemFundo = "";
+
+      if (hora >= 6 && hora < 12) {
+        corFundo = "#FFFACD"; // Amarelo claro
+        mensagem = "Bom dia! ☀️";
+        frasesAtuais = [
+          "Comece o dia com gratidão e veja como tudo muda.",
+          "A manhã é a chance de fazer tudo melhor.",
+          "Você tem tudo que precisa para vencer hoje."
+        ];
+        imagemFundo = "url('manha.jpg')";
+      } else if (hora >= 12 && hora < 18) {
+        corFundo = "#FFDAB9"; // Pêssego
+        mensagem = "Boa tarde! ⛅";
+        frasesAtuais = [
+          "Continue firme, você está indo muito bem!",
+          "Use a tarde para recomeçar com ainda mais foco.",
+          "A cada minuto, uma nova oportunidade nasce."
+        ];
+        imagemFundo = "url('tarde.jpg')";
+      } else if (hora >= 18 && hora < 23) {
+        corFundo = "#B0C4DE"; // Azul acinzentado
+        mensagem = "Boa noite! 🌔";
+        frasesAtuais = [
+          "Descanse a mente, alimente o coração com esperança.",
+          "A noite é o momento de agradecer por tudo.",
+          "Feche os olhos e confie: o amanhã será incrível."
+        ];
+        imagemFundo = "url('noite.jpg')";
+      } else {
+        corFundo = "#2F4F4F"; // Cinza escuro
+        mensagem = "Hora de descansar! 🌙";
+        frasesAtuais = [
+          "Silencie o mundo e ouça sua paz interior.",
+          "No silêncio da madrugada, sonhos ganham forma.",
+          "Durma leve. O universo está cuidando de tudo."
+        ];
+        imagemFundo = "url('madrugada.jpg')";
+      }
+
+      document.body.style.backgroundColor = corFundo;
+      document.body.style.backgroundImage = imagemFundo;
+      document.getElementById("titulo").textContent = mensagem;
+    }
+
+    function mostrarHoraData(agora) {
+      const hora = agora.getHours();
+      const minutos = agora.getMinutes().toString().padStart(2, "0");
+      const segundos = agora.getSeconds().toString().padStart(2, "0");
+      const opcoes = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+      const dataFormatada = agora.toLocaleDateString("pt-BR", opcoes);
+
+      document.getElementById("hora").textContent = "Agora são " + hora + ":" + minutos + ":" + segundos;
+      document.getElementById("data").textContent = "📅 " + dataFormatada;
+    }
+
+    function mostrarDiaSemana(agora) {
+      const dia = agora.getDay();
+      let mensagemDia = "";
+
+      if (dia === 1) {
+        mensagemDia = "🚀 Segunda-feira: Comece forte. O mundo espera o seu melhor.";
+      } else if (dia === 2) {
+        mensagemDia = "🌱 Terça-feira: Plante boas atitudes e colha bons resultados.";
+      } else if (dia === 3) {
+        mensagemDia = "🧭 Quarta-feira: A metade do caminho já foi! Continue firme.";
+      } else if (dia === 4) {
+        mensagemDia = "🔥 Quinta-feira: Que seu dia seja produtivo e cheio de conquistas.";
+      } else if (dia === 5) {
+        mensagemDia = "🎉 Sexta-feira: Final de semana chegando! Termine a semana com orgulho.";
+      } else if (dia === 6) {
+        mensagemDia = "😎 Sábado: Descanse, divirta-se e cuide de você!";
+      } else if (dia === 0) {
+        mensagemDia = "🛌 Domingo: Renove suas energias e prepare-se para uma nova jornada.";
+      }
+
+      document.getElementById("diaSemana").textContent = mensagemDia;
+    }
+
+    function mudarFrase() {
+      if (frasesAtuais.length > 0) {
+        const indice = Math.floor(Math.random() * frasesAtuais.length);
+        document.getElementById("frase").textContent = frasesAtuais[indice];
+      }
+    }
+  </script>
+</body>
+</html>
