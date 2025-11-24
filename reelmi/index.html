@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Reelmi Pro | IA Edition</title>
+
+    <!-- Fonte "Plus Jakarta Sans" (Usada no UI Kit Original) -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* =========================================
+           1. VARIÁVEIS DO TEMA (Aurenix Blue)
+        ========================================= */
+        :root {
+            --bg-body: #020205;       /* Preto Profundo */
+            --bg-surface: #0E0E16;    /* Cinza/Azul escuro para cards */
+            --bg-glass: rgba(14, 14, 22, 0.7);
+            
+            --primary-blue: #3F8CFF;  /* Azul Aurenix */
+            --primary-gradient: linear-gradient(135deg, #3F8CFF 0%, #60A5FA 100%);
+            
+            --text-main: #FFFFFF;
+            --text-muted: #94A3B8;
+            
+            --border-subtle: 1px solid rgba(255, 255, 255, 0.08);
+            --glow-blue: 0 0 30px rgba(63, 140, 255, 0.15);
+            
+            --radius-box: 24px;
+            --radius-btn: 16px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; -webkit-tap-highlight-color: transparent; outline: none; }
+
+        body {
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+        }
+
+        /* Ambient Glow (Luz de fundo azulada das imagens) */
+        .ambient-glow {
+            position: fixed; top: -20%; right: -10%;
+            width: 800px; height: 800px;
+            background: radial-gradient(circle, rgba(63, 140, 255, 0.15) 0%, transparent 60%);
+            filter: blur(100px); z-index: -1; pointer-events: none;
+        }
+
+        /* =========================================
+           2. SIDEBAR (PC APENAS)
+        ========================================= */
+        .sidebar {
+            width: 280px;
+            background: rgba(5, 5, 8, 0.6);
+            backdrop-filter: blur(25px);
+            border-right: var(--border-subtle);
+            display: flex; flex-direction: column; padding: 32px;
+            z-index: 100;
+        }
+
+        .brand { display: flex; align-items: center; gap: 14px; margin-bottom: 50px; }
+        .logo-icon { width: 40px; height: 40px; object-fit: contain; filter: drop-shadow(0 0 10px var(--primary-blue)); }
+        .brand h1 { font-size: 20px; font-weight: 700; }
+
+        .nav-menu { display: flex; flex-direction: column; gap: 8px; flex: 1; }
+        .nav-item {
+            padding: 14px 18px; border-radius: var(--radius-btn);
+            color: var(--text-muted); font-weight: 500; font-size: 15px;
+            cursor: pointer; display: flex; align-items: center; gap: 14px;
+            transition: 0.3s;
+        }
+        .nav-item:hover { background: rgba(255,255,255,0.03); color: white; }
+        .nav-item.active {
+            background: var(--primary-blue); color: white;
+            box-shadow: 0 4px 20px rgba(63, 140, 255, 0.4);
+        }
+
+        /* =========================================
+           3. AREA PRINCIPAL
+        ========================================= */
+        .main-stage {
+            flex: 1; position: relative; overflow: hidden; display: flex; flex-direction: column;
+        }
+
+        /* Views (Telas) */
+        .view-section {
+            position: absolute; inset: 0; display: none; flex-direction: column;
+            padding: 40px; overflow-y: auto; opacity: 0; transform: scale(0.98); transition: 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+        .view-section.active { display: flex; opacity: 1; transform: scale(1); z-index: 10; }
+
+        /* --- HOME VIEW (Igual ao UI Kit) --- */
+        .header-home h2 { font-size: 32px; font-weight: 700; margin-bottom: 8px; }
+        .header-home p { color: var(--text-muted); margin-bottom: 40px; }
+
+        .cards-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+        
+        .feature-card {
+            background: var(--bg-surface); border: var(--border-subtle); border-radius: var(--radius-box);
+            padding: 24px; cursor: pointer; transition: 0.3s; position: relative; overflow: hidden;
+            display: flex; align-items: center; gap: 20px;
+        }
+        .feature-card:hover { border-color: var(--primary-blue); transform: translateY(-4px); }
+        .card-icon-box {
+            width: 50px; height: 50px; background: rgba(63, 140, 255, 0.1); border-radius: 14px;
+            display: flex; align-items: center; justify-content: center; font-size: 20px; color: var(--primary-blue);
+        }
+        
+        /* --- CHAT VIEW (Estilo Mensageiro Moderno) --- */
+        .chat-layout { max-width: 900px; width: 100%; margin: 0 auto; display: flex; flex-direction: column; height: 100%; }
+        
+        .chat-feed { flex: 1; overflow-y: auto; padding-bottom: 20px; display: flex; flex-direction: column; gap: 24px; }
+        
+        .msg-group { display: flex; gap: 16px; animation: slideUp 0.3s ease; }
+        .msg-group.user { flex-direction: row-reverse; }
+        
+        .avatar { width: 36px; height: 36px; border-radius: 50%; object-fit: cover; flex-shrink: 0; background: #222; }
+        
+        .bubble {
+            padding: 16px 22px; border-radius: 20px; font-size: 15px; line-height: 1.6; max-width: 80%;
+        }
+        .msg-group.bot .bubble { background: var(--bg-surface); color: #E2E8F0; border: var(--border-subtle); border-top-left-radius: 4px; }
+        .msg-group.user .bubble { background: var(--primary-gradient); color: white; border-bottom-right-radius: 4px; box-shadow: var(--glow-blue); }
+
+        /* Input Flutuante */
+        .input-dock {
+            background: rgba(14, 14, 22, 0.85); backdrop-filter: blur(20px);
+            border: var(--border-subtle); border-radius: 100px;
+            padding: 8px; display: flex; align-items: center; gap: 10px;
+            margin-top: 10px; position: relative; z-index: 50;
+        }
+        .dock-input {
+            flex: 1; background: transparent; border: none; color: white; font-size: 16px; padding: 12px 16px; height: 48px;
+        }
+        .dock-btn {
+            width: 48px; height: 48px; border-radius: 50%; border: none; cursor: pointer;
+            display: flex; align-items: center; justify-content: center; font-size: 18px; transition: 0.2s;
+        }
+        .btn-mic { background: rgba(255,255,255,0.05); color: #fff; }
+        .btn-mic:hover { background: #EF4444; }
+        .btn-send { background: var(--primary-blue); color: white; }
+
+        /* --- SETTINGS VIEW --- */
+        .settings-header { margin-bottom: 30px; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 20px; }
+        .setting-card {
+            background: var(--bg-surface); border: var(--border-subtle); border-radius: 20px; padding: 25px; margin-bottom: 20px;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .setting-input { background: #000; border: 1px solid #333; color: white; padding: 10px; border-radius: 8px; text-align: right; }
+
+        /* =========================================
+           4. MOBILE RESPONSIVE (Bottom Nav)
+        ========================================= */
+        .bottom-nav {
+            display: none; position: fixed; bottom: 0; left: 0; width: 100%; height: 75px;
+            background: rgba(2, 2, 5, 0.9); backdrop-filter: blur(20px); border-top: var(--border-subtle);
+            justify-content: space-around; align-items: center; z-index: 200;
+        }
+        .nav-icon { background: none; border: none; color: #64748b; font-size: 24px; padding: 10px; position: relative; }
+        .nav-icon.active { color: var(--primary-blue); }
+        .nav-icon.active::after {
+            content: ''; position: absolute; bottom: 5px; left: 50%; transform: translateX(-50%);
+            width: 5px; height: 5px; background: var(--primary-blue); border-radius: 50%;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar { display: none; }
+            .bottom-nav { display: flex; }
+            .main-stage { padding-bottom: 80px; } /* Espaço para nav */
+            .view-section { padding: 20px; }
+            .chat-layout { height: auto; }
+            .input-dock { margin-bottom: 10px; }
+        }
+
+        /* =========================================
+           5. OVERLAYS (Login & Voz)
+        ========================================= */
+        .overlay {
+            position: fixed; inset: 0; background: #000; z-index: 2000;
+            display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;
+        }
+        .box-login { width: 85%; max-width: 350px; padding: 30px; background: #111; border-radius: 30px; border: var(--border-subtle); }
+        .btn-grad { width: 100%; padding: 14px; background: var(--primary-gradient); border: none; border-radius: 12px; color: white; font-weight: bold; margin-top: 20px; cursor: pointer; }
+
+        .voice-mode { display: none; background: rgba(0,0,0,0.95); backdrop-filter: blur(15px); }
+        .voice-mode.active { display: flex; }
+        
+        .robot-img {
+            width: 220px; height: 220px; object-fit: contain;
+            filter: drop-shadow(0 0 50px rgba(63, 140, 255, 0.4));
+            animation: levitate 4s ease-in-out infinite;
+        }
+
+        @keyframes levitate { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-20px)} }
+        @keyframes slideUp { from{opacity:0;transform:translateY(15px)}to{opacity:1;transform:translateY(0)} }
+
+    </style>
+</head>
+<body>
+
+    <!-- LUZ AMBIENTE -->
+    <div class="ambient-glow"></div>
+
+    <!-- TELA DE LOGIN (PRIMEIRA VEZ) -->
+    <div class="overlay" id="loginScreen">
+        <div class="box-login">
+            <img src="reelmilogo.png" style="width:50px; margin-bottom:20px; filter: drop-shadow(0 0 10px #3F8CFF);">
+            <h2 style="margin-bottom:10px;">Bem-vindo</h2>
+            <p style="color:#888; margin-bottom:25px;">Insira seu nome para começar.</p>
+            <input type="text" id="usernameInput" placeholder="Seu nome" style="width:100%; padding:14px; background:#000; border:1px solid #333; color:white; border-radius:12px; text-align:center;">
+            <button class="btn-grad" onclick="saveUser()">Entrar</button>
+        </div>
+    </div>
+
+    <!-- SIDEBAR (PC) -->
+    <aside class="sidebar">
+        <div class="brand">
+            <img src="reelmilogo.png" class="logo-icon" alt="Reelmi">
+            <h1>Reelmi Pro</h1>
+        </div>
+        <div class="nav-menu">
+            <div class="nav-item active" onclick="go('home', this)"><i class="fa-solid fa-layer-group"></i> Início</div>
+            <div class="nav-item" onclick="go('chat', this)"><i class="fa-solid fa-message"></i> Chat AI</div>
+            <div class="nav-item" onclick="go('settings', this)"><i class="fa-solid fa-gear"></i> Ajustes</div>
+        </div>
+        
+        <div style="margin-top:auto; padding-top:20px; border-top:1px solid #222; display:flex; gap:10px; align-items:center;">
+            <div style="width:32px; height:32px; background:var(--primary-blue); border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:bold;" id="sideAvatar">U</div>
+            <div>
+                <div style="font-size:14px; font-weight:600;" id="sideName">User</div>
+                <div style="font-size:11px; color:var(--primary-blue);">Free Plan</div>
+            </div>
+        </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-stage">
+        
+        <!-- 1. HOME VIEW -->
+        <div class="view-section active" id="view-home">
+            <div class="header-home">
+                <h2 id="helloText">Olá!</h2>
+                <p>Como posso ajudar você hoje?</p>
+            </div>
+
+            <div class="cards-grid">
+                <div class="feature-card" onclick="triggerChat('Gere um código Python para mim')">
+                    <div class="card-icon-box"><i class="fa-solid fa-code"></i></div>
+                    <div><h3>Gerar Código</h3><p style="font-size:13px; color:#888;">Python, JS, HTML</p></div>
+                </div>
+                <div class="feature-card" onclick="triggerChat('Crie um texto sobre Inteligência Artificial')">
+                    <div class="card-icon-box"><i class="fa-solid fa-feather"></i></div>
+                    <div><h3>Criar Conteúdo</h3><p style="font-size:13px; color:#888;">Blogs e e-mails</p></div>
+                </div>
+                <div class="feature-card" onclick="triggerChat('O que é um Buraco Negro?')">
+                    <div class="card-icon-box"><i class="fa-solid fa-graduation-cap"></i></div>
+                    <div><h3>Aprender</h3><p style="font-size:13px; color:#888;">Ciência e fatos</p></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 2. CHAT VIEW -->
+        <div class="view-section" id="view-chat">
+            <div class="chat-layout">
+                <div class="chat-feed" id="chatFeed">
+                    <div class="msg-group bot">
+                        <img src="reelmilogo.png" class="avatar">
+                        <div class="bubble">Olá! Sou o Reelmi AI. Pergunte-me qualquer coisa.</div>
+                    </div>
+                </div>
+                
+                <div class="input-dock">
+                    <button class="dock-btn btn-mic" onclick="startVoice()"><i class="fa-solid fa-microphone"></i></button>
+                    <input type="text" class="dock-input" id="chatInput" placeholder="Digite sua mensagem...">
+                    <button class="dock-btn btn-send" onclick="sendMsg()"><i class="fa-solid fa-paper-plane"></i></button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3. SETTINGS VIEW -->
+        <div class="view-section" id="view-settings">
+            <div class="settings-header">
+                <h2>Configurações</h2>
+                <p style="color:#888">Gerencie suas preferências</p>
+            </div>
+            
+            <div class="setting-card">
+                <span>Nome de Usuário</span>
+                <input type="text" class="setting-input" id="settingNameInput" readonly>
+            </div>
+            
+            <div class="setting-card" onclick="resetApp()" style="cursor:pointer; border-color:rgba(239, 68, 68, 0.3);">
+                <span style="color:#EF4444;">Resetar Aplicativo</span>
+                <i class="fa-solid fa-trash" style="color:#EF4444;"></i>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- MOBILE NAV -->
+    <nav class="bottom-nav">
+        <button class="nav-icon active" onclick="go('home', this)"><i class="fa-solid fa-house"></i></button>
+        <button class="nav-icon" onclick="go('chat', this)"><i class="fa-solid fa-comment-dots"></i></button>
+        <button class="nav-icon" onclick="go('settings', this)"><i class="fa-solid fa-gear"></i></button>
+    </nav>
+
+    <!-- VOICE OVERLAY -->
+    <div class="overlay voice-mode" id="voiceOverlay">
+        <img src="roboreelmi.png" class="robot-img" onerror="this.src='https://cdn-icons-png.flaticon.com/512/4712/4712035.png'">
+        <h2 style="margin-top:30px;" id="voiceStatus">Ouvindo...</h2>
+        <button onclick="closeVoice()" style="margin-top:40px; background:rgba(255,255,255,0.1); border:none; color:white; padding:10px 30px; border-radius:20px;">Cancelar</button>
+    </div>
+
+    <script>
+        // ========================
+        // 1. GERENCIADOR DE USUÁRIO
+        // ========================
+        function loadUser() {
+            const user = localStorage.getItem('reelmiUser');
+            if(user) {
+                document.getElementById('loginScreen').style.display = 'none';
+                updateUI(user);
+            } else {
+                document.getElementById('loginScreen').style.display = 'flex';
+            }
+        }
+
+        function saveUser() {
+            const name = document.getElementById('usernameInput').value.trim();
+            if(!name) return;
+            localStorage.setItem('reelmiUser', name);
+            document.getElementById('loginScreen').style.display = 'none';
+            updateUI(name);
+        }
+
+        function updateUI(name) {
+            document.getElementById('helloText').innerText = `Olá, ${name}`;
+            document.getElementById('sideName').innerText = name;
+            document.getElementById('sideAvatar').innerText = name.charAt(0).toUpperCase();
+            document.getElementById('settingNameInput').value = name;
+        }
+
+        function resetApp() {
+            if(confirm('Tem certeza? Isso apagará seu nome e dados.')) {
+                localStorage.removeItem('reelmiUser');
+                location.reload();
+            }
+        }
+
+        window.onload = loadUser;
+
+        // ========================
+        // 2. NAVEGAÇÃO
+        // ========================
+        function go(viewId, btn) {
+            // Troca de telas
+            document.querySelectorAll('.view-section').forEach(el => el.classList.remove('active'));
+            document.getElementById('view-' + viewId).classList.add('active');
+
+            // Atualiza botões (PC e Mobile)
+            document.querySelectorAll('.nav-item, .nav-icon').forEach(el => el.classList.remove('active'));
+            if(btn) btn.classList.add('active');
+            
+            // Sincronia básica entre menus mobile/desktop (opcional)
+        }
+
+        function triggerChat(msg) {
+            go('chat');
+            document.getElementById('chatInput').value = msg;
+            sendMsg();
+        }
+
+        // ========================
+        // 3. CHAT LOGIC
+        // ========================
+        const db = [
+            { k: ['oi', 'olá', 'hello'], r: "Olá! Como posso ajudar você com seus projetos hoje?" },
+            { k: ['tudo bem', 'como vai'], r: "Estou funcionando 100%. E você?" },
+            { k: ['código', 'python', 'js'], r: "Posso gerar snippets para você. Qual linguagem você prefere?" },
+            { k: ['buraco negro', 'espaço'], r: "Buracos negros são regiões do espaço-tempo onde a gravidade é tão forte que nada escapa." },
+            { k: ['texto', 'conteúdo'], r: "Claro, posso escrever rascunhos, e-mails ou posts para redes sociais." }
+        ];
+
+        function getBotReply(txt) {
+            txt = txt.toLowerCase();
+            for(let item of db) {
+                if(item.k.some(key => txt.includes(key))) return item.r;
+            }
+            return "Interessante. Poderia me dar mais detalhes sobre isso?";
+        }
+
+        function sendMsg() {
+            const inp = document.getElementById('chatInput');
+            const txt = inp.value.trim();
+            if(!txt) return;
+
+            addMsg(txt, 'user');
+            inp.value = '';
+
+            setTimeout(() => {
+                const reply = getBotReply(txt);
+                addMsg(reply, 'bot');
+                speak(reply);
+            }, 600);
+        }
+
+        function addMsg(text, type) {
+            const feed = document.getElementById('chatFeed');
+            const grp = document.createElement('div');
+            grp.className = `msg-group ${type}`;
+            
+            const imgSrc = type === 'bot' ? 'reelmilogo.png' : 'https://cdn-icons-png.flaticon.com/512/1077/1077114.png';
+            
+            grp.innerHTML = `
+                <img src="${imgSrc}" class="avatar">
+                <div class="bubble">${text}</div>
+            `;
+            feed.appendChild(grp);
+            feed.scrollTop = feed.scrollHeight;
+        }
+
+        // ========================
+        // 4. VOICE LOGIC
+        // ========================
+        const Speech = window.SpeechRecognition || window.webkitSpeechRecognition;
+        let rec = null;
+
+        function startVoice() {
+            if(!Speech) return alert("Navegador não suportado.");
+            
+            document.getElementById('voiceOverlay').classList.add('active');
+            document.getElementById('voiceStatus').innerText = "Ouvindo...";
+            
+            rec = new Speech();
+            rec.lang = 'pt-BR';
+            rec.start();
+
+            rec.onresult = (e) => {
+                const transcript = e.results[0][0].transcript;
+                document.getElementById('voiceStatus').innerText = "Processando...";
+                
+                setTimeout(() => {
+                    closeVoice();
+                    document.getElementById('chatInput').value = transcript;
+                    sendMsg();
+                }, 800);
+            };
+
+            rec.onerror = () => {
+                document.getElementById('voiceStatus').innerText = "Erro ao ouvir.";
+                setTimeout(closeVoice, 1500);
+            };
+        }
+
+        function closeVoice() {
+            document.getElementById('voiceOverlay').classList.remove('active');
+            if(rec) rec.stop();
+        }
+
+        function speak(text) {
+            const u = new SpeechSynthesisUtterance(text);
+            u.lang = 'pt-BR';
+            window.speechSynthesis.speak(u);
+        }
+
+        // Enter Key Listener
+        document.getElementById('chatInput').addEventListener('keypress', (e) => {
+            if(e.key === 'Enter') sendMsg();
+        });
+
+    </script>
+</body>
+</html>
